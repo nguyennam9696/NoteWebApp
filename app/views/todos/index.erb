@@ -1,0 +1,70 @@
+<img src="/img/blank_bulletin.png" class="bg" alt="bulletin_board">
+<% if current_user %>
+<form id="sign-out" action="/logout" method="post">
+    <input name="_method" type="hidden" value="delete" />
+    <input type="submit" value="Sign Out"/>
+</form>
+<% end %>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="todolist not-done">
+               <h1>Todos</h1>
+               <form action="/notes" method="POST">
+                <input type="text" class="form-control add-todo" name="content" placeholder="Add todo">
+                <input class="btn btn-success" type="submit" value="Add Nom Nom Notes">
+            </form>
+
+            <hr>
+
+            <% current_user.notes.reverse.each_with_index do |note, index|  %>
+            <div class="marginaway col-md-6" >
+                <img src="/img/thumbtack_stickie.png" class="sticky-note" alt="bulletin_board">
+                <h2 class="getupmotherfacka">NOTE <%= index+1 %></h2>
+                <p class="getupmotherfacka"><%= note.content %></p>
+                <form action="/edit/<%= note.id %>" method="POST" class="getupmotherfacka">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="text" name="content" value="<%= note.content %>">
+                    <input type="submit" value="edit">
+                </form>
+                <form action="/delete/<%= note.id %>" method="POST" class="delete getupmotherfacka">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" value="FINISHED!!">
+                </form>
+            </div>
+            <% end %>
+
+            <div class="todo-footer">
+                <strong><span class="count-todos"></span></strong> <%= current_user.notes.length %> Items Left
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="todolist">
+           <h1>Completed Todos</h1>
+           <ul id="done-items" class="list-unstyled">
+            <li>Some item <button class="remove-item btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button></li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+
+<div id="template" style="display:none">
+    <div class="marginaway col-md-6" >
+        <img src="/img/thumbtack_stickie.png" class="sticky-note" alt="bulletin_board">
+        <h2 class="getupmotherfacka"></h2>
+        <p class="getupmotherfacka"></p>
+        <form action="#" method="POST" class="getupmotherfacka">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="text" name="content" value="">
+            <input type="submit" value="edit">
+        </form>
+        <form action="#" method="POST" class="delete getupmotherfacka">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="FINISHED!!">
+        </form>
+    </div>
+</div>
